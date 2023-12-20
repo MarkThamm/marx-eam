@@ -3,7 +3,7 @@ package de.bafin.presentation.rest.api.v1.impl;
 import de.bafin.EAMServiceResource;
 import de.bafin.application.ProduktApplicationService;
 import de.bafin.common.utils.CorrelationUtils;
-import de.bafin.presentation.rest.api.v1.mapper.EAMServiceAPIMapper;
+import de.bafin.presentation.rest.api.v1.mapper.EAMModelMapper;
 import de.bafin.presentation.rest.api.v1.model.Produkt;
 import de.bafin.presentation.rest.api.v1.model.Result;
 import jakarta.enterprise.context.RequestScoped;
@@ -18,7 +18,6 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,12 +35,12 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
 
     private final ProduktApplicationService applicationService;
 
-    private final EAMServiceAPIMapper eamServiceAPIMapper;
+    private final EAMModelMapper eamModelMapper;
     @Inject
-    public EAMServiceResourceImpl(ProduktApplicationService applicationService, EAMServiceAPIMapper eamServiceAPIMapper) {
+    public EAMServiceResourceImpl(ProduktApplicationService applicationService, EAMModelMapper eamServiceAPIMapper) {
         Objects.requireNonNull(applicationService, "applicationService darf nicht null sein");
         this.applicationService = applicationService;
-        this.eamServiceAPIMapper = eamServiceAPIMapper;
+        this.eamModelMapper = eamServiceAPIMapper;
     }
 
 

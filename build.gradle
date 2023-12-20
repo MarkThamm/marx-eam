@@ -8,11 +8,6 @@ repositories {
     mavenLocal()
 }
 
-ext {
-    metamodelPath = "$projectDir/src/main/java-generated"
-    //mapStructVersion
-}
-
 dependencies {
 
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
@@ -26,8 +21,6 @@ dependencies {
 
     //Thirdparty
     implementation "org.apache.commons:commons-lang3:${commonLang3Version}"
-    implementation "org.jboss.slf4j:slf4j-jboss-logmanager"
-    implementation "org.mapstruct:mapstruct:${mapStrustVersion}"
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
@@ -46,13 +39,6 @@ test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
 compileJava {
-    doFirst {
-        if (file(metamodelPath).exists()) {
-            FileCollection collection = files { file(metamodelPath).listFiles() }
-            collection.each { delete it }
-        }
-        file(metamodelPath).mkdirs()
-    }
     options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'
 }
@@ -60,11 +46,4 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs += ['-Amapstruct.suppressGeneratorTimestamp=true']
-    options.annotationProcessorGeneratedSourcesDirectory = file('/src/main/java-generated')
-}
-
 

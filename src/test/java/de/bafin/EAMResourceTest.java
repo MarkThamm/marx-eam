@@ -8,13 +8,13 @@ import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 class EAMResourceTest {
- //   @Test
-  //  void testProduktEndpoint() {
+    @Test
+    void testProduktEndpoint() {
 //        given()
 //          .when().get("/eam/api/hello")
 //          .then()
 //             .statusCode(200)
 //             .body(is("Hello from RESTEasy Reactive"));
-  //  }
+    }
 
 }
