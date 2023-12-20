@@ -2,9 +2,12 @@ package de.bafin.presentation.rest.api.v1.impl;
 
 import de.bafin.EAMServiceResource;
 import de.bafin.application.ProduktApplicationService;
+import de.bafin.common.utils.CorrelationUtils;
+import de.bafin.presentation.rest.api.v1.mapper.EAMServiceAPIMapper;
 import de.bafin.presentation.rest.api.v1.model.Produkt;
 import de.bafin.presentation.rest.api.v1.model.Result;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -18,6 +21,7 @@ import org.jboss.resteasy.reactive.NoCache;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Service-endpoint: http://localhost:8080/eam/api/produkte
@@ -30,7 +34,15 @@ import java.util.List;
 @Tag(name = "EAMService", description = "verwaltet alle Domainenoperationen")
 public class EAMServiceResourceImpl implements EAMServiceResource {
 
-    private ProduktApplicationService applicationService;
+    private final ProduktApplicationService applicationService;
+
+    private final EAMServiceAPIMapper eamServiceAPIMapper;
+    @Inject
+    public EAMServiceResourceImpl(ProduktApplicationService applicationService, EAMServiceAPIMapper eamServiceAPIMapper) {
+        Objects.requireNonNull(applicationService, "applicationService darf nicht null sein");
+        this.applicationService = applicationService;
+        this.eamServiceAPIMapper = eamServiceAPIMapper;
+    }
 
 
     @GET
@@ -41,13 +53,29 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
     public Response getProdukt(@Parameter(required = true, description = "Produkt mit dem eindeutigen Namen", name = "name")
                                @PathParam(value = "name") String name) {
 
-        var result = new Result("4711t");
+        var result = new Result(CorrelationUtils.getCorrelationID());
+        List<de.bafin.domain.model.Produkt> entities = applicationService.getProdukte();
         Produkt retVal = new Produkt("SREP", "Kuske", "Christian", "christian.kuske@bafin.de", "IT3");
         List<Produkt> produkte = new ArrayList<Produkt>();
         produkte.add(retVal);
         result.setProdukte(produkte);
 
         return Response.ok(result).build();
+    }
+
+    @GET
+    @NoCache
+    @Operation(description = "Hole alle Produkte")
+    @Override
+    public Response getProdukte() {
+        var result = new Result(CorrelationUtils.getCorrelationID());
+        List<de.bafin.domain.model.Produkt> entities = applicationService.getProdukte();
+        if(entities!=null){
+           // List<Pqrodukt> produkte =
+        } else {
+// uuuu
+        }
+        return null;
     }
 
 

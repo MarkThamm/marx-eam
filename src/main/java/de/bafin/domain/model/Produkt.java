@@ -2,13 +2,13 @@ package de.bafin.domain.model;
 
 public class Produkt {
     private final String name;
-    private final String vorname;
-    private final String nachname;
+    private final String version;
+    private final Person verantwortlicher;
 
-    public Produkt(String projektName, String vorname, String nachname) {
+    public Produkt(String projektName, String version, Person verantwortlicher) {
         this.name = projektName;
-        this.vorname = vorname;
-        this.nachname = nachname;
+        this.version = version;
+        this.verantwortlicher = verantwortlicher;
     }
 
 

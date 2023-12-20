@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProduktApplicationService {
     List<Produkt> getProdukte();
+    Produkt getProdukt(String name);
 }

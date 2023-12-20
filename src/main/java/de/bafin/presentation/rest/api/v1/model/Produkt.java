@@ -12,7 +12,7 @@ public class Produkt {
     private Person verantwortlicher;
 
 
-    private Float version;
+    private String version;
 
     @Schema(description = "Produktname")
     @NotNull(message = "Der Produktname darf nicht leer sein")
@@ -23,7 +23,7 @@ public class Produkt {
 
     }
 
-    public Produkt(String name, Float version) {
+    public Produkt(String name, String version) {
         super();
         this.version = version;
         this.name = name;
@@ -48,11 +48,11 @@ public class Produkt {
     }
 
 
-    public Float getVersion() {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(Float version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 
