@@ -1,0 +1,5 @@
+package de.bafin.common;
+
+public enum EAMServiceApiCode {
+    OK,NOK,INVALID_MESSAGE,OPTIMISTIC_LOCKING, MESSAGE_NOT_FOUND, NOTE_CREATED, NOT_UPDATED;
+}
