@@ -3,8 +3,9 @@ package de.bafin.application;
 import de.bafin.domain.model.Produkt;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProduktApplicationService {
     List<Produkt> getProdukte();
-    Produkt getProdukt(String name);
+    Optional<Produkt> getProdukt(String name);
 }

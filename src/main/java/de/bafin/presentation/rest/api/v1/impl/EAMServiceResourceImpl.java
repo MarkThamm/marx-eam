@@ -19,10 +19,9 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Service-endpoint: http://localhost:8080/eam/api/produkte
@@ -56,11 +55,18 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
                                @PathParam(value = "name") String name) {
 
         var result = new Result(CorrelationUtils.getCorrelationID());
-        List<de.bafin.domain.model.Produkt> entities = applicationService.getProdukte();
-        Produkt retVal = new Produkt("SREP", "Kuske", "Christian", "christian.kuske@bafin.de", "IT3");
-        List<Produkt> produkte = new ArrayList<Produkt>();
-        produkte.add(retVal);
-        result.setProdukte(produkte);
+        Optional<de.bafin.domain.model.Produkt> entity = applicationService.getProdukt(name);
+
+        if(entity.isPresent()){
+            Produkt produkt = eamModelMapper.viewModel_From_Entity_Produkt(entity.get());
+            result.addProdukt(produkt);
+            result.setCode(EAMServiceApiCode.OK.name());
+        } else {
+            result.setCode(EAMServiceApiCode.PRODUKTE_NOT_FOUND.name());
+        }
+
+
+        //result.setProdukte(produkte);
 
         return Response.ok(result).build();
     }
@@ -74,7 +80,7 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
 
         List<de.bafin.domain.model.Produkt> entities = applicationService.getProdukte();
         if (entities != null) {
-            List<Produkt> produkte = eamModelMapper.viewModelList_From_EntityList(entities);
+            List<Produkt> produkte = eamModelMapper.viewModelList_From_EntityList_Produkt(entities);
             result.setProdukte(produkte);
             result.setCode(EAMServiceApiCode.OK.name());
         } else {

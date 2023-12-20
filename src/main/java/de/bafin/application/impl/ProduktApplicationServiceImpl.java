@@ -7,25 +7,31 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ProduktApplicationServiceImpl implements ProduktApplicationService {
 
 
     public ProduktApplicationServiceImpl() {
+
     }
 
     @Override
     public List<Produkt> getProdukte() {
-        return getFakeList();
+        return fakeRepository();
     }
 
     @Override
-    public Produkt getProdukt(String name) {
-        return null;
+    public Optional<Produkt> getProdukt(String name) {
+        for (Produkt p : fakeRepository()) {
+            if (p.getName().equals(name))
+                return Optional.of(p);
+        }
+        return Optional.empty();
     }
 
-    private static List<Produkt> getFakeList() {
+    private static List<Produkt> fakeRepository() {
         // Personen
         List<Produkt> retVal = new ArrayList<Produkt>();
         Person christian = new Person("Kuske", "Christian", "christian.kuske@bafin.de", "IT3");

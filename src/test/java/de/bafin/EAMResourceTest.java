@@ -10,11 +10,10 @@ import static org.hamcrest.CoreMatchers.is;
 class EAMResourceTest {
     @Test
     void testProduktEndpoint() {
-//        given()
-//          .when().get("/eam/api/hello")
-//          .then()
-//             .statusCode(200)
-//             .body(is("Hello from RESTEasy Reactive"));
+        given()
+          .when().get("/eam/api/produkte")
+          .then()
+             .statusCode(200);
     }
 
 }
