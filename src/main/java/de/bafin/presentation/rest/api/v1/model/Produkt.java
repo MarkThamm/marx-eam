@@ -20,7 +20,6 @@ public class Produkt {
     private String name;
 
     public Produkt() {
-
     }
 
     public Produkt(String name, String version) {
@@ -29,14 +28,19 @@ public class Produkt {
         this.name = name;
     }
 
-    public Produkt(String name) {
-        this.name = name;
-    }
 
-    public Produkt(String name,  String vorname, String nachname, String emailAdresse, String orgEinheit) {
+    public Produkt(String name, String vorname, String nachname, String emailAdresse, String orgEinheit) {
         super();
         this.name = name;
-        this.verantwortlicher = new Person(vorname,nachname,emailAdresse,orgEinheit);
+        this.verantwortlicher = new Person(vorname, nachname, emailAdresse, orgEinheit);
+    }
+
+    public Produkt(String name, String version, Person person) {
+        super();
+        this.version = version;
+        this.name = name;
+        this.verantwortlicher = person;
+
     }
 
     public String getName() {

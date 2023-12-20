@@ -2,6 +2,7 @@ package de.bafin.presentation.rest.api.v1.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import de.bafin.common.EAMServiceApiCode;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ public class Result {
 
     @Schema(required = true, description = "Code des Results")
     @NotNull(message = "Der Resultcode darf nicht leer sein")
-    private EAMServiceApiCode code;
+    private String code;
 
     @Schema(description = "Description ID")
     private String correlationId;
@@ -24,7 +25,7 @@ public class Result {
     public Result() {
     }
 
-    public Result(List<Produkt> produkte, EAMServiceApiCode code, String correlationId) {
+    public Result(List<Produkt> produkte, String code, String correlationId) {
         super();
         this.produkte = produkte;
         this.code = code;
@@ -35,25 +36,23 @@ public class Result {
         this.correlationId = correlationId;
     }
 
-    public Result(EAMServiceApiCode code) {
-        this.code = code;
-    }
 
-    public Result(EAMServiceApiCode code, String correlationId) {
+
+    public Result(String code, String correlationId) {
         this.code = code;
         this.correlationId = correlationId;
     }
 
-    public Result(EAMServiceApiCode code, List<Produkt> produkte) {
+    public Result(String code, List<Produkt> produkte) {
         this.code = code;
         this.produkte = produkte;
     }
 
-    public EAMServiceApiCode getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(EAMServiceApiCode code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -75,7 +74,6 @@ public class Result {
         }
     }
 
-
     public String getCorrelationId() {
         return correlationId;
     }
@@ -83,6 +81,8 @@ public class Result {
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
     }
+
+
 
     @Override
     public String toString() {

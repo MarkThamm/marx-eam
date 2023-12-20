@@ -2,6 +2,7 @@ package de.bafin.presentation.rest.api.v1.impl;
 
 import de.bafin.EAMServiceResource;
 import de.bafin.application.ProduktApplicationService;
+import de.bafin.common.EAMServiceApiCode;
 import de.bafin.common.utils.CorrelationUtils;
 import de.bafin.presentation.rest.api.v1.mapper.EAMModelMapper;
 import de.bafin.presentation.rest.api.v1.model.Produkt;
@@ -18,6 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.NoCache;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +38,7 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
     private final ProduktApplicationService applicationService;
 
     private final EAMModelMapper eamModelMapper;
+
     @Inject
     public EAMServiceResourceImpl(ProduktApplicationService applicationService, EAMModelMapper eamServiceAPIMapper) {
         Objects.requireNonNull(applicationService, "applicationService darf nicht null sein");
@@ -68,13 +71,16 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
     @Override
     public Response getProdukte() {
         var result = new Result(CorrelationUtils.getCorrelationID());
+
         List<de.bafin.domain.model.Produkt> entities = applicationService.getProdukte();
-        if(entities!=null){
-           // List<Pqrodukt> produkte =
+        if (entities != null) {
+            List<Produkt> produkte = eamModelMapper.viewModelList_From_EntityList(entities);
+            result.setProdukte(produkte);
+            result.setCode(EAMServiceApiCode.OK.name());
         } else {
-// uuuu
+            result.setCode(EAMServiceApiCode.PRODUKTE_NOT_FOUND.name());
         }
-        return null;
+        return Response.ok(result).build();
     }
 
 
