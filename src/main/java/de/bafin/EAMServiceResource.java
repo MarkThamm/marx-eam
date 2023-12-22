@@ -1,6 +1,8 @@
 package de.bafin;
 
+import de.bafin.presentation.rest.api.v1.model.Produkt;
 import io.smallrye.common.constraint.NotNull;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.core.Response;
 
 
@@ -17,4 +19,6 @@ public interface EAMServiceResource {
      * @return
      */
     Response getProdukte();
+
+    Response addProdukt(@Valid Produkt produkt);
 }

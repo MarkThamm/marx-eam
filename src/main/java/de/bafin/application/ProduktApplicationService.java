@@ -7,5 +7,8 @@ import java.util.Optional;
 
 public interface ProduktApplicationService {
     List<Produkt> getProdukte();
+
     Optional<Produkt> getProdukt(String name);
+
+    Optional<Produkt> addProdukt(Produkt produkt);
 }

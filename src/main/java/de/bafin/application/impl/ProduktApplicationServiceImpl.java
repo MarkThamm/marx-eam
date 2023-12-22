@@ -5,6 +5,7 @@ import de.bafin.domain.model.Person;
 import de.bafin.domain.model.Produkt;
 import jakarta.enterprise.context.ApplicationScoped;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class ProduktApplicationServiceImpl implements ProduktApplicationService {
 
+    private List<Produkt> fakeRepository = fakeRepository();
 
     public ProduktApplicationServiceImpl() {
 
@@ -19,16 +21,22 @@ public class ProduktApplicationServiceImpl implements ProduktApplicationService 
 
     @Override
     public List<Produkt> getProdukte() {
-        return fakeRepository();
+        return fakeRepository;
     }
 
     @Override
     public Optional<Produkt> getProdukt(String name) {
-        for (Produkt p : fakeRepository()) {
+        for (Produkt p : fakeRepository) {
             if (p.getName().equals(name))
                 return Optional.of(p);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Produkt> addProdukt(Produkt produkt) {
+        fakeRepository.add(produkt);
+        return Optional.ofNullable(produkt);
     }
 
     private static List<Produkt> fakeRepository() {
