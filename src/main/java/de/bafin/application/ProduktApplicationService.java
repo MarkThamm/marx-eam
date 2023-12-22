@@ -11,4 +11,5 @@ public interface ProduktApplicationService {
     Optional<Produkt> getProdukt(String name);
 
     Optional<Produkt> addProdukt(Produkt produkt);
+    void deleteProdukt(String name);
 }

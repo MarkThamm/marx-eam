@@ -1,5 +1,6 @@
 package de.bafin.presentation.rest.api.v1.impl;
 
+import com.oracle.svm.core.annotate.Delete;
 import de.bafin.EAMServiceResource;
 import de.bafin.application.ProduktApplicationService;
 import de.bafin.common.EAMServiceApiCode;
@@ -7,6 +8,7 @@ import de.bafin.common.utils.CorrelationUtils;
 import de.bafin.presentation.rest.api.v1.mapper.EAMModelMapper;
 import de.bafin.presentation.rest.api.v1.model.Produkt;
 import de.bafin.presentation.rest.api.v1.model.Result;
+import io.smallrye.common.constraint.NotNull;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -118,6 +120,24 @@ public class EAMServiceResourceImpl implements EAMServiceResource {
             result.setCode(EAMServiceApiCode.NOK.name());
         }
         return Response.ok(result).build();
+    }
+
+    @DELETE
+    @NoCache
+    @Counted(name = "Produkt geloescht", description = "Zaehlt die geloeschten Produkte")
+    @Operation(description = "Loescht ein Produkt.")
+    @Path("/{name}")
+    @APIResponse(responseCode = "200", description = "Response mit geloeschtem Result zum uebergegebenen Produkt-Objekt", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Result.class)))
+    @APIResponse(responseCode = "504", description = "Service Zeit ist ueberschritten")
+    @APIResponse(responseCode = "401", description = "Benutzer ist nicht autorisiert")
+    @Override
+    public Response deleteProdukt(
+            @Parameter(required = true, description = "Produkt mit dem Namen wird geloescht", name = "name")
+            @NotNull @PathParam(value = "name") String name) {
+        var result = new Result(CorrelationUtils.getCorrelationID());
+        applicationService.deleteProdukt(name);
+        result.setCode(EAMServiceApiCode.OK.name());
+        return Response.ok(result, MediaType.APPLICATION_JSON).build();
     }
 
 

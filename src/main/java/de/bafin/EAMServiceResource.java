@@ -21,4 +21,6 @@ public interface EAMServiceResource {
     Response getProdukte();
 
     Response addProdukt(@Valid Produkt produkt);
+
+    Response deleteProdukt(@NotNull String name);
 }

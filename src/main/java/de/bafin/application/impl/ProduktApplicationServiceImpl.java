@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,16 @@ public class ProduktApplicationServiceImpl implements ProduktApplicationService 
     public Optional<Produkt> addProdukt(Produkt produkt) {
         fakeRepository.add(produkt);
         return Optional.ofNullable(produkt);
+    }
+
+    @Override
+    public void deleteProdukt(String name) {
+        for (Iterator iterator = this.fakeRepository.iterator(); iterator.hasNext(); ) {
+            Produkt p = (Produkt) iterator.next();
+            if (p.getName().equals(name)) {
+                iterator.remove();
+            }
+        }
     }
 
     private static List<Produkt> fakeRepository() {
